@@ -7,7 +7,7 @@ export const SHOWCASE_CARDS: CricketCardStats[] = [
   {
     login: "torvalds",
     name: "Linus Torvalds",
-    avatarUrl: "https://avatars.githubusercontent.com/torvalds",
+    avatarUrl: "https://github.com/torvalds.png",
     role: "Batsman",
     tier: "Legend",
     rating: 96,
@@ -35,7 +35,7 @@ export const SHOWCASE_CARDS: CricketCardStats[] = [
   {
     login: "gaearon",
     name: "Dan Abramov",
-    avatarUrl: "https://avatars.githubusercontent.com/gaearon",
+    avatarUrl: "https://github.com/gaearon.png",
     role: "All-rounder",
     tier: "Gold",
     rating: 87,
@@ -63,7 +63,8 @@ export const SHOWCASE_CARDS: CricketCardStats[] = [
   {
     login: "you",
     name: "Your name here",
-    avatarUrl: "https://avatars.githubusercontent.com/u/0",
+    avatarUrl:
+      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzJGNkIzQyIvPjx0ZXh0IHg9IjEwMCIgeT0iMTE4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSI2NCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0Y0RjFFOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+WU9VPC90ZXh0Pjwvc3ZnPg==",
     role: "Bowler",
     tier: "Bronze",
     rating: 62,
