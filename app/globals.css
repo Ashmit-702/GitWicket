@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #14301f;
+  color: #f4f1e8;
+}
+
+/* subtle turf texture — thin diagonal mow lines, never a gradient hero */
+.mow-lines {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(244, 241, 232, 0.025) 0px,
+    rgba(244, 241, 232, 0.025) 2px,
+    transparent 2px,
+    transparent 40px
+  );
+}
+
+/* ticket-stub perforation — a dashed tear line down the card's left edge,
+   like a stadium admission stub. Reliable across browsers, no clip-path fragility. */
+.card-stub::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  border-left: 2px dashed rgba(20, 48, 31, 0.35);
+}
+
+/* holographic sheen for Legend-tier cards — a slow-moving gold diagonal gradient */
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* stadium floodlight wash behind the hero / card — two soft radial pools that drift */
+@keyframes floodlight-drift {
+  0%, 100% {
+    transform: translate(-6%, -4%) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(6%, 4%) scale(1.12);
+    opacity: 0.85;
+  }
+}
+
+.floodlights {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floodlights::before,
+.floodlights::after {
+  content: "";
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  max-width: 640px;
+  max-height: 640px;
+  border-radius: 9999px;
+  filter: blur(90px);
+  animation: floodlight-drift 14s ease-in-out infinite;
+}
+
+.floodlights::before {
+  top: -10%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(199, 154, 62, 0.28), transparent 70%);
+}
+
+.floodlights::after {
+  bottom: -14%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(47, 107, 60, 0.35), transparent 70%);
+  animation-delay: 4s;
+}
+
+/* diagonal shine sweep across a card face, replayed on hover via .group-hover */
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-140%) rotate(8deg);
+  }
+  100% {
+    transform: translateX(140%) rotate(8deg);
+  }
+}
+
+.shine-sweep {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 45%;
+  height: 140%;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.55) 48%,
+    transparent 78%
+  );
+  mix-blend-mode: overlay;
+  animation: shine-sweep 2.6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* gentle idle float for the card, paused while the user is actively tilting it */
+@keyframes card-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.card-float {
+  animation: card-float 5s ease-in-out infinite;
+}
+
+/* infinite marquee ticker, used for the "recently rated" strip on the homepage */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* thin gold scrollbar, matches the bail accent instead of default OS chrome */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(199, 154, 62, 0.5);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
