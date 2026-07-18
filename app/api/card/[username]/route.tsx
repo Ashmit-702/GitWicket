@@ -4,9 +4,11 @@ import { getCard } from "@/lib/getCard";
 export const dynamic = "force-dynamic";
 
 const COLORS = {
-  pitch: "#14301F",
+  pitch: "#0E1420",
   chalk: "#F4F1E8",
-  bail: "#C79A3E",
+  bail: "#D9A93B",
+  leather: "#C1443B",
+  dusk: "#2B3D6B",
   ink: "#1B1B18",
 };
 
@@ -14,7 +16,7 @@ const TIER_THEME: Record<string, { bg: string; ribbon: string; ribbonText: strin
   Bronze: { bg: "linear-gradient(180deg, #8a5a3c 0%, #4f321f 100%)", ribbon: "#c98a56", ribbonText: COLORS.ink, border: "#c98a56", bar: "#c98a56" },
   Silver: { bg: "linear-gradient(180deg, #d4d8dc 0%, #868c92 100%)", ribbon: "#eef0f2", ribbonText: COLORS.ink, border: "#eef0f2", bar: "#c3c8cd" },
   Gold: { bg: "linear-gradient(180deg, #f3d488 0%, #a97a2c 100%)", ribbon: COLORS.bail, ribbonText: COLORS.ink, border: COLORS.bail, bar: COLORS.bail },
-  Legend: { bg: "linear-gradient(120deg, #1b1b18 0%, #4a3a12 25%, #c79a3e 50%, #f4e6b8 65%, #4a3a12 85%, #1b1b18 100%)", ribbon: "linear-gradient(90deg, #C79A3E, #f4e6b8, #C79A3E)", ribbonText: COLORS.ink, border: "#EBD79A", bar: "#EBD79A" },
+  Legend: { bg: "linear-gradient(120deg, #1b1b18 0%, #6e2620 25%, #D9A93B 50%, #f4e6b8 65%, #2B3D6B 85%, #1b1b18 100%)", ribbon: "linear-gradient(90deg, #C1443B, #D9A93B, #2B3D6B)", ribbonText: COLORS.chalk, border: "#EBD79A", bar: "#D9A93B" },
 };
 
 export async function GET(req: Request, { params }: { params: { username: string } }) {
@@ -78,7 +80,7 @@ export async function GET(req: Request, { params }: { params: { username: string
 
             <div style={{ display: "flex", alignItems: "center" }}>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginRight: 16 }}>
-                <div style={{ color: "#2F6B3C", fontSize: 15, fontWeight: 700, letterSpacing: 1 }}>
+                <div style={{ color: COLORS.dusk, fontSize: 15, fontWeight: 700, letterSpacing: 1 }}>
                   {card.role.toUpperCase()}
                 </div>
                 <div style={{ color: COLORS.ink, fontSize: 20, fontWeight: 700, marginTop: 2 }}>{card.name}</div>

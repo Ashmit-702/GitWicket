@@ -14,7 +14,7 @@ function StarRow({ label, stars, index }: { label: string; stars: number; index:
       <span className="font-body text-sm text-chalk/80">{label}</span>
       <div className="flex gap-0.5">
         {Array.from({ length: 5 }).map((_, i) => (
-          <svg key={i} viewBox="0 0 20 20" className="h-3.5 w-3.5" fill={i < stars ? "#C79A3E" : "none"} stroke="#C79A3E" strokeWidth={1.2}>
+          <svg key={i} viewBox="0 0 20 20" className="h-3.5 w-3.5" fill={i < stars ? "#D9A93B" : "none"} stroke="#D9A93B" strokeWidth={1.2}>
             <path d="M10 1.5 12.5 7 18.5 7.7 14 11.8 15.3 18 10 14.8 4.7 18 6 11.8 1.5 7.7 7.5 7Z" />
           </svg>
         ))}

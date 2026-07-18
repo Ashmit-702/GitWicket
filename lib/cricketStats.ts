@@ -79,11 +79,11 @@ export function mapToCricketStats(raw: RawGithubStats): CricketCardStats {
 
   // --- uniform 0-99 sub-scores — these are what actually appear on the card face ---
   const battingScore = battingAverage;
-  const strikeScore = curve(strikeRate, 90);
-  const wicketScore = curve(wickets, 40);
+  const strikeScore = curve(strikeRate, 75);
+  const wicketScore = curve(wickets, 26);
   const economyScore = curve(10 - economy, 4);
-  const boundaryScore = curve(boundaries, 60);
-  const catchScore = curve(catches, 20);
+  const boundaryScore = curve(boundaries, 35);
+  const catchScore = curve(catches, 13);
 
   const rawOverall =
     battingScore * 0.25 +
@@ -93,13 +93,15 @@ export function mapToCricketStats(raw: RawGithubStats): CricketCardStats {
     boundaryScore * 0.12 +
     catchScore * 0.08;
 
-  let rating = clamp(Math.round(rawOverall), 35, 88);
+  // no artificial floor — a near-empty profile should honestly show a near-empty rating,
+  // rather than every account landing around the same "35" regardless of real activity
+  let rating = clamp(Math.round(rawOverall), 8, 92);
 
   const isLegendEligible =
     activeYears >= 4 && accountAgeYears >= 4 && raw.followers >= 400 && raw.stars >= 800 && rating >= 78;
-  if (isLegendEligible) rating = clamp(rating + 9, 35, 99);
+  if (isLegendEligible) rating = clamp(rating + 9, 8, 99);
 
-  const tier: Tier = rating >= 90 ? "Legend" : rating >= 80 ? "Gold" : rating >= 65 ? "Silver" : "Bronze";
+  const tier: Tier = rating >= 90 ? "Legend" : rating >= 78 ? "Gold" : rating >= 55 ? "Silver" : "Bronze";
 
   const total = Math.max(1, raw.commits + raw.pullRequests + raw.reviews);
   const reviewShare = raw.reviews / total;
@@ -137,14 +139,14 @@ export function mapToCricketStats(raw: RawGithubStats): CricketCardStats {
       label: "Followers",
       raw: raw.followers,
       suffix: "followers",
-      score: curve(raw.followers, 300),
+      score: curve(raw.followers, 180),
       explanation: "Reach and influence — softens Economy alongside stars.",
     },
     {
       label: "Merged PRs",
       raw: raw.pullRequestsMerged,
       suffix: "merged all-time",
-      score: curve(raw.pullRequestsMerged, 60),
+      score: curve(raw.pullRequestsMerged, 40),
       explanation: "Shipped work, not just opened — the core of Wickets.",
     },
     {

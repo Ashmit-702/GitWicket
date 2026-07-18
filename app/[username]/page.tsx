@@ -34,7 +34,7 @@ export default async function UserCardPage({ params }: Props) {
 
   return (
     <main className="mow-lines relative min-h-screen overflow-hidden px-6 py-8">
-      <div className="floodlights" />
+      <div className="floodlights"><span className="ember" /></div>
 
       {/* top nav */}
       <div className="relative z-10 mx-auto flex max-w-6xl items-center justify-between">
@@ -67,6 +67,12 @@ export default async function UserCardPage({ params }: Props) {
         <PageReveal delay={0} y={28} className="order-1 flex flex-col items-center lg:order-2">
           <CricketCard card={card} />
           <ShareButton login={card.login} name={card.name} rating={card.rating} tier={card.tier} />
+          <a
+            href={`/compare?with=${card.login}`}
+            className="mt-3 font-display text-xs uppercase tracking-widest text-chalk/40 transition hover:text-leather"
+          >
+            Compare with a friend →
+          </a>
         </PageReveal>
 
         <PageReveal delay={0.15} className="order-3 space-y-6">

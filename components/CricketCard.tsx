@@ -27,22 +27,22 @@ const TIER_THEME: Record<
     confetti: ["#eef0f2", "#9aa0a6"],
   },
   Gold: {
-    fill: ["#f7ecc9", "#e3bd66"],
-    frame: "#C79A3E",
+    fill: ["#f9edc7", "#e0b94f"],
+    frame: "#D9A93B",
     accent: "#8f6a24",
-    ribbon: "linear-gradient(90deg,#C79A3E,#8f6a24)",
+    ribbon: "linear-gradient(90deg,#D9A93B,#8f6a24)",
     ribbonText: "#1B1B18",
-    glow: "drop-shadow(0 0 30px rgba(199,154,62,0.7))",
-    confetti: ["#C79A3E", "#f4e6b8", "#8f6a24"],
+    glow: "drop-shadow(0 0 30px rgba(217,169,59,0.7))",
+    confetti: ["#D9A93B", "#f4e6b8", "#8f6a24"],
   },
   Legend: {
-    fill: ["#fff6dc", "#e8c168"],
+    fill: ["#fff1de", "#eec468"],
     frame: "#1B1B18",
-    accent: "#8f6a24",
-    ribbon: "linear-gradient(90deg,#C79A3E,#fff3d1,#C79A3E)",
-    ribbonText: "#1B1B18",
-    glow: "drop-shadow(0 0 40px rgba(244,230,184,0.9))",
-    confetti: ["#C79A3E", "#fff3d1", "#1B1B18", "#f4e6b8"],
+    accent: "#C1443B",
+    ribbon: "linear-gradient(90deg,#C1443B,#D9A93B,#2B3D6B)",
+    ribbonText: "#F4F1E8",
+    glow: "drop-shadow(0 0 40px rgba(217,169,59,0.85))",
+    confetti: ["#D9A93B", "#C1443B", "#2B3D6B", "#fff3d1"],
   },
 };
 
@@ -60,7 +60,7 @@ function initials(name: string, login: string) {
   return source.slice(0, 2).toUpperCase();
 }
 
-export default function CricketCard({ card }: { card: CricketCardStats }) {
+export default function CricketCard({ card, celebrate = true }: { card: CricketCardStats; celebrate?: boolean }) {
   const [avatarFailed, setAvatarFailed] = useState(false);
   const [hovering, setHovering] = useState(false);
   const theme = TIER_THEME[card.tier];
@@ -88,6 +88,7 @@ export default function CricketCard({ card }: { card: CricketCardStats }) {
   }
 
   useEffect(() => {
+    if (!celebrate) return;
     if (card.tier !== "Gold" && card.tier !== "Legend") return;
     let cancelled = false;
     import("canvas-confetti").then(({ default: confetti }) => {
