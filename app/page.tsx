@@ -52,7 +52,7 @@ export default function HomePage() {
           <a href="/how-it-works" className="font-display text-xs uppercase tracking-widest text-chalk/60 transition hover:text-bail">
             How it works ↗
           </a>
-          
+          <a
             href="https://github.com/Ashmit-702/GitWicket"
             target="_blank"
             rel="noreferrer"
@@ -176,7 +176,7 @@ export default function HomePage() {
       <section className="relative z-10 overflow-hidden border-y border-chalk/10 bg-pitch/40 py-4">
         <div className="marquee-track flex w-max gap-8">
           {[...TICKER, ...TICKER].map((t, i) => (
-            
+            <a
               key={i}
               href={`/${t.login}`}
               className="flex shrink-0 items-center gap-2 font-mono text-xs text-chalk/50 transition hover:text-bail"
@@ -223,7 +223,7 @@ export default function HomePage() {
         <h2 className="font-display text-2xl font-black uppercase italic text-chalk sm:text-3xl">
           What&apos;s your rating?
         </h2>
-        
+        <a
           href="#top"
           onClick={(e) => {
             e.preventDefault();
