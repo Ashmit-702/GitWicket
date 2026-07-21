@@ -171,7 +171,29 @@ body {
   animation-play-state: paused;
 }
 
-/* thin gold scrollbar, matches the bail accent instead of default OS chrome */
+/* staggered fade-in for static-page content rows — no JS/framer-motion needed here */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-row {
+  opacity: 0;
+  animation: fade-in-up 0.45s ease-out forwards;
+}
+.stagger-row:nth-child(1) { animation-delay: 0.05s; }
+.stagger-row:nth-child(2) { animation-delay: 0.12s; }
+.stagger-row:nth-child(3) { animation-delay: 0.19s; }
+.stagger-row:nth-child(4) { animation-delay: 0.26s; }
+.stagger-row:nth-child(5) { animation-delay: 0.33s; }
+.stagger-row:nth-child(6) { animation-delay: 0.4s; }
+.stagger-row:nth-child(7) { animation-delay: 0.47s; }
 ::-webkit-scrollbar {
   height: 6px;
   width: 6px;

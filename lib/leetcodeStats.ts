@@ -21,12 +21,16 @@ export function mapToLeetCodeCricketStats(raw: RawLeetCodeStats): CricketCardSta
   const catches = raw.contestsAttended;
 
   // --- uniform 0-99 sub-scores — same curve function as GitHub, different inputs ---
+  // Midpoints below are calibrated against rough real-world personas (a few months in,
+  // a steady 1-2yr grinder, a 2-3yr interview-prep grinder, a competitive solver, an
+  // elite/NeetCode-tier account) so a typical profile doesn't saturate a stat at ~95+
+  // from a fairly modest count — that was the earlier bug making ratings feel arbitrary.
   const battingScore = battingAverage;
-  const strikeScore = curve(strikeRate, 75);
-  const wicketScore = curve(wickets, 15);
-  const economyScore = curve(10 - economy, 4);
-  const boundaryScore = curve(boundaries, 40);
-  const catchScore = curve(catches, 8);
+  const strikeScore = curve(strikeRate, 220);
+  const wicketScore = curve(wickets, 90);
+  const economyScore = curve(10 - economy, 5.5);
+  const boundaryScore = curve(boundaries, 180);
+  const catchScore = curve(catches, 10);
 
   const rawOverall =
     battingScore * 0.25 +

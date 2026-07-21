@@ -3,16 +3,23 @@
 import { motion } from "framer-motion";
 import type { CricketCardStats } from "@/lib/cricketStats";
 
-// A fixed, deterministic bell-shaped histogram standing in for "all rated GitHub cricket cards".
-// Centered around a Silver/low-Gold rating (most GitHub profiles are solid-but-unremarkable),
-// with a long thin tail out toward Legend — same shape the reference site's widget implies.
+// A fixed, deterministic bell-shaped histogram standing in for "all rated cricket cards" —
+// calibrated separately per platform since GitHub and LeetCode ratings have different
+// natural spreads (LeetCode's is wider: a lot of casual solvers pull the mean down, with a
+// long climb to the Hard-problem-heavy Legend tier).
 const BUCKETS = 20; // 0-99 split into 20 buckets of ~5 points each
-const MEAN = 58;
-const STD = 13;
+const DIST_BY_PLATFORM = {
+  github: { mean: 58, std: 13 },
+  leetcode: { mean: 42, std: 18 },
+};
+const ACCENT_BY_PLATFORM = {
+  github: { bar: "rgba(217,169,59,0.85)", text: "text-bail", line: "border-bail/60" },
+  leetcode: { bar: "rgba(226,133,43,0.85)", text: "text-[#E2852B]", line: "border-[#E2852B]/60" },
+};
 
-function bucketHeight(index: number) {
+function bucketHeight(index: number, mean: number, std: number) {
   const x = index * (99 / BUCKETS) + 99 / BUCKETS / 2;
-  const z = (x - MEAN) / STD;
+  const z = (x - mean) / std;
   return Math.exp(-0.5 * z * z);
 }
 
@@ -26,19 +33,24 @@ function normalCdf(x: number, mean: number, std: number) {
 }
 
 export default function DistributionChart({ card }: { card: CricketCardStats }) {
-  const heights = Array.from({ length: BUCKETS }, (_, i) => bucketHeight(i));
+  const { mean, std } = DIST_BY_PLATFORM[card.platform];
+  const accent = ACCENT_BY_PLATFORM[card.platform];
+  const heights = Array.from({ length: BUCKETS }, (_, i) => bucketHeight(i, mean, std));
   const maxHeight = Math.max(...heights);
-  const percentile = Math.max(1, Math.min(99, Math.round(normalCdf(card.rating, MEAN, STD) * 100)));
+  // no artificial floor here — a genuinely low rating should show a genuinely low percentile,
+  // not read like a badge. Clamped only to keep 1-99 sane at the extreme tails.
+  const percentile = Math.min(99, Math.max(1, Math.round(normalCdf(card.rating, mean, std) * 100)));
   const markerPct = Math.min(97, Math.max(2, (card.rating / 99) * 100));
+  const isAboveAverage = percentile >= 50;
 
   return (
     <div className="w-full max-w-xs">
       <div className="rounded-xl border border-chalk/10 bg-pitch/60 p-5">
-        <p className="mb-1 flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-widest text-bail">
-          <span className="h-px w-4 bg-bail" /> Distribution
+        <p className={`mb-1 flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-widest ${accent.text}`}>
+          <span className={`h-px w-4 ${accent.text.replace("text-", "bg-")}`} /> Distribution
         </p>
         <p className="mb-4 font-body text-xs text-chalk/50">
-          Where {card.rating} RTG sits against every card GitWicket has rated.
+          Where {card.rating} RTG sits against every {card.platform === "github" ? "GitHub" : "LeetCode"} card GitWicket has rated.
         </p>
 
         <div className="relative h-24">
@@ -53,13 +65,13 @@ export default function DistributionChart({ card }: { card: CricketCardStats }) 
                   animate={{ height: `${Math.max(4, (h / maxHeight) * 100)}%` }}
                   transition={{ delay: 0.05 * i, duration: 0.4, ease: "easeOut" }}
                   className="flex-1 rounded-t-sm"
-                  style={{ background: isPast ? "rgba(199,154,62,0.85)" : "rgba(244,241,232,0.15)" }}
+                  style={{ background: isPast ? accent.bar : "rgba(244,241,232,0.15)" }}
                 />
               );
             })}
           </div>
 
-          {/* dashed marker + label pinned at this card's position, tail end like the reference widget */}
+          {/* dashed marker + label pinned at this card's position */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -67,15 +79,23 @@ export default function DistributionChart({ card }: { card: CricketCardStats }) 
             className="pointer-events-none absolute -top-6 flex -translate-x-1/2 flex-col items-center"
             style={{ left: `${markerPct}%` }}
           >
-            <span className="whitespace-nowrap font-mono text-[10px] font-semibold text-bail">
+            <span className={`whitespace-nowrap font-mono text-[10px] font-semibold ${accent.text}`}>
               {card.login} · {card.rating}
             </span>
-            <span className="mt-0.5 h-[88px] w-px border-l border-dashed border-bail/60" />
+            <span className={`mt-0.5 h-[88px] w-px border-l border-dashed ${accent.line}`} />
           </motion.div>
         </div>
 
         <p className="mt-4 font-body text-xs text-chalk/60">
-          Rated higher than <span className="font-semibold text-bail">{percentile}%</span> of cards on GitWicket.
+          {isAboveAverage ? (
+            <>
+              Higher than <span className={`font-semibold ${accent.text}`}>{percentile}%</span> of cards on GitWicket.
+            </>
+          ) : (
+            <>
+              Ahead of only <span className={`font-semibold ${accent.text}`}>{percentile}%</span> of cards so far — plenty of runway to climb.
+            </>
+          )}
         </p>
       </div>
     </div>

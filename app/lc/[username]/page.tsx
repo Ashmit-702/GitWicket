@@ -44,7 +44,7 @@ export default async function LeetCodeCardPage({ params }: Props) {
           <span aria-hidden>←</span> Back
         </a>
         <a
-          href="/how-it-works"
+          href="/how-it-works/leetcode"
           className="font-display text-xs uppercase tracking-widest text-chalk/50 transition hover:text-[#E2852B]"
         >
           How it works ↗
