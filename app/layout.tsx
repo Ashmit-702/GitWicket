@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Oswald, Work_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const display = Oswald({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--font-display" });
@@ -36,7 +37,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
-      <body className="font-body">{children}</body>
+      <body className="font-body">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
